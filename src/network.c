@@ -989,8 +989,15 @@ void set_interfaces(const char *interfaces)
       prev_if_names = if_tmp;
     }
     while (prev_interfaces) {
+      int found = 0;
       struct irec *tmp_irec = prev_interfaces->next;
-      free(prev_interfaces);
+      for (new_iface = daemon->interfaces; new_iface; new_iface = new_iface->next)
+          if (sockaddr_isequal(&prev_interfaces->addr, &new_iface->addr)) {
+              my_syslog(LOG_DEBUG, _("now still use this interfaces so keep it alive"));
+              found = -1;
+          }
+      if (!found)
+          free(prev_interfaces);
       prev_interfaces = tmp_irec;
     }
 #ifdef __ANDROID_DEBUG__
