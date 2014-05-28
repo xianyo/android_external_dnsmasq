@@ -1217,9 +1217,8 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
 	    lease->override = override;
 	  else
 	    override = lease->override;
-
-	  log_packet("DHCPACK", &mess->yiaddr, emac, emac_len, iface_name, hostname, mess->xid);  
-	  
+	  property_set("net.dnsmasq.completed", "1");
+	  log_packet("DHCPACK", &mess->yiaddr, emac, emac_len, iface_name, hostname, mess->xid);
 	  clear_packet(mess, end);
 	  option_put(mess, end, OPTION_MESSAGE_TYPE, 1, DHCPACK);
 	  option_put(mess, end, OPTION_SERVER_IDENTIFIER, INADDRSZ, ntohl(server_id(context, override, fallback).s_addr));

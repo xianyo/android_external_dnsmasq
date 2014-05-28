@@ -96,6 +96,7 @@ int main (int argc, char **argv)
   textdomain("dnsmasq");
 #endif
 
+  property_set("net.dnsmasq.completed", "0");
   sigact.sa_handler = sig_handler;
   sigact.sa_flags = 0;
   sigemptyset(&sigact.sa_mask);
