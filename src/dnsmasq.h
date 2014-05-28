@@ -100,7 +100,7 @@
 #ifndef HAVE_LINUX_NETWORK
 #  include <net/if_dl.h>
 #endif
-
+#include "cutils/properties.h"
 #if defined(HAVE_LINUX_NETWORK)
 #include <linux/capability.h>
 /* There doesn't seem to be a universally-available 
