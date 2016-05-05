@@ -947,6 +947,7 @@ void set_interfaces(const char *interfaces)
         die(_("interface string too long: %s"), NULL, EC_BADNET);
     }
     strncpy(s, interfaces, sizeof(s));
+    s[1023] = '\0';
     while((interface = strsep(&next, ":"))) {
         if_tmp = safe_malloc(sizeof(struct iname));
         memset(if_tmp, 0, sizeof(struct iname));
@@ -1055,6 +1056,7 @@ int set_servers(const char *servers)
   uint32_t mark;
 
   strncpy(s, servers, sizeof(s));
+  s[1023] = '\0';
 
   /* move old servers to free list - we can reuse the memory
      and not risk malloc if there are the same or fewer new servers.
@@ -1275,6 +1277,7 @@ struct in_addr get_ifaddr(char *intr)
   for (l = daemon->listeners; l && l->family != AF_INET; l = l->next);
   
   strncpy(ifr.ifr_name, intr, IF_NAMESIZE);
+  ifr.ifr_name[IF_NAMESIZE-1] = '\0';
   ifr.ifr_addr.sa_family = AF_INET;
   
   if (!l || ioctl(l->fd, SIOCGIFADDR, &ifr) == -1)
